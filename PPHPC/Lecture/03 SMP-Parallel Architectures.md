@@ -102,3 +102,6 @@ all with direct hardware access to a shared memory space:
 - Communication is implicit through memory, synchronization is explicit
 Even in UMA systems, each core has a small local memory (like L1-cache) to mitigate expensive accesses to main memory.
 Refenence programming models: Pthreads, C++ threads, OpenMP.
+
+## SHM vs DM systems
+Distributed Memory systems are more scalable, but incur higher communication and infrastructure costs. Typically requires higher programming effort
