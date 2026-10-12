@@ -4,4 +4,6 @@
 .Trash/
 MLDL/Slides/*.pdf
 PPHPC/Exercises/bin/* 
+M4AI/Linear_Algebra/**
+M4AI/Probability/**
 
