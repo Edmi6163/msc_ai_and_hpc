@@ -46,7 +46,7 @@ These bounds rely on idealized assumptions
 
 
 # Parallel Random Access Memory - PRAM 
-Idealized Shared-Memory modle for algorithm design
+Idealized Shared-Memory model for algorithm design
 Idealized platform (no caching, no NUMA, no syncronizations overhead)
 
 n processors are connected to a global shared memory M
@@ -62,7 +62,106 @@ In every step each processor executes an instruction cycle in three phases (read
 
 Variants -> Concurrent Read Concurrent Write: 
 Both simultaneous reads and writes to the same shared memory cell 
-
+**Exclusive Read Exclusive Write** (EREW): 
+**Concurrent Read Concurrent Write** (CRCW): 
 Complexity: 
 - Time complexity 
 - Processor complexity
+
+## Prefix Computation
+Binary associative operation, the idea is simple: As they are associative is it possible to group the element in parralel programming by associativity. 
+
+The algorithm implementing the prefix computation is often called **scan**
+- lower bound: $\Omega(n)$
+
+Two types of scan: 
+- **Exclusive**: 
+- **Inclusive**: Prefix computation usually refers to the inclusive version 
+The C++ STL library provides: ```
+```c++
+std::inclusive_scan
+std::exclusive_scan
+```
+### Parallel Prefix '+' on a PRAM
+Goal -> design a cost-optimal PRAM algorithm $C(n)=O(n)$
+We use the recursive doubing algorithm using p=n processors
+
+To reduce the cost $C(n)$ we can reduce the number of processors used
+
+$C(n) = T(n,p)*p=O(\log n) *n =O(n *\log n)$ thus this algorithm is cost-optimal
+
+### Sparse array compaction
+Assume you have a one-dimensional array A where most entries are zero
+
+on a PRAM:
+We can use a parallel prefix approach using $p = \frac{n}{\log(n)}$ processors
+
+
+## Limits of the PRAM model
+- Unrealistic memory access: it assumes that all processors have uniform,instantaneous access to a single shared memory
+- Perfect lockstep synchronization: in practice achieving and maintaining such global synchronization introduce significant overhead
+- No communication and memory hierarchy costs
+- Cost-optimal PRAM algorithms may still scale poorly on real machines processing resource
+
+## Bulk synchronous Parallel Model
+The BSP model of computation was proposed as a unified framework for the design, analysis, and programming of general purpose parallel systems. 
+It can deliver both scalable performance and architecture independence. 
+It's not just a theoretical model, it can also serve as a reference pradigm for parallel programming
+It consists of three parts: 
+- A collection of processor-memory components
+- A communication network that can deliver point-to-point messages among processors 
+- A facility for global synchronization (**barrier**) of all processors
+
+Main goal: seprate the 3 paradigm (computation, .. .., ....) #TODO 
+
+# BSP COMPUTER
+n processor $P_{o},\dots,P_{n-1}$ each with its own memory (a distributed memory multiprocessor)
+A processor can access its local... #TODO 
+
+## BSP Algorithm
+- it consists of a sequence of supersteps
+- A superstep consists of
+	- computation,communication,or computation and communication steps
+		- so called mixed superstep in case both are executed 
+	- a global barrier synchronization (bulk synchronization) to ensure that all computation and communication from the superstep have completed
+- A computational superstep focuses on local processing tasks (e.g floating point operations)
+- Communication superstep focuses on exchanging data among processes. 
+### h-relation and communication cost
+An h-relation is a communication superstep in which, for every processor, the number of data words sent and received is at most h
+
+- The cost of an h-relation is $T(h) = h *g  +l$ where: 
+	- g (gap) is the per word communication cost
+	- l (latency) is the global synchronization time
+	- Both are expressed in FLOPS [[01  Introduction#Supercomputers]]
+	- Note that *g* and *l* depend on the number of processors
+	- $l > 0$ includes the costs of the global synchronization plus all fixed costs for ensuring that all data have arrived at the destination, and the start-up of the communications 
+
+## Computation superstep cost
+The cost of computation superstep is $T_{comp}(w)=w+l$
+where:
+- $w$ is the amount of work defined as the maximum number of operations performed in the superstep by any processor
+- Processor performing fewer than w operations remain idle until the barrier
+The cost of a mixed superstep is $T_{min})(w)=w+h*g+l$
+- The same *l* measure is used for all types of superstep 
+## Cost of a BSP algorithm
+The BSP algorithm cost is given by the following general expression $$C_{bsp} = a+b*g+c*l$$
+The expression is obtained by adding the costs of all the algorithm's supersteps,the coefficient a,b and c collect
+
+Example: 
+$p = 4$ $g=4 FLOPS$ $l=20 FLOPS$
+ (look at slide for the example)
+
+Another example -> dot product BSP algorithm example
+
+BSP Algorithm: GEMM
+Assumption: matrices and distributed evenly over p processors
+processors are organized in a logical grid of size $\sqrt{ p } * \sqrt{ p }$ 
+
+
+### BSP model summary
+A BPS abstract machine is a distributed memory system represented as BSP(p,r,g,l) where: 
+- p is hte number of processors, r is the local computing rate expressed in FLOPS, g all the communication cost per data word (in FLOP time unit), ad l is the global synchronization cost (in FLOP time unit)
+
+
+### BSP design implication
+A structured approach to thinking about parallellizaton. BSP organizes program into supersteps, which improves clarity and provides a simple cost model 

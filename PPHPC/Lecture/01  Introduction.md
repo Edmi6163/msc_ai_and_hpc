@@ -69,7 +69,7 @@ Integrate different types of processor cores on single chip (asymettry)
 
 ## Supercomputers
 They are large-scale parallel systems with strict energy constraints. designed to perform computations at high speeds. Current target **Exascale Computing** $O(10^{18})$ FLOPS
-
+#flopdefinition
 **Definition of FLOP**: how many operation I can do in a second, is it possibile to compute the peak of OPS
 
 Multiple independent CMP nodes (often with some powerful GPUs) connected with one or more high-bandwith, low-latency networks and with a dedicated network for I/O offering high-bandwith.
