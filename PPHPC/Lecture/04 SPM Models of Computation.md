@@ -36,7 +36,7 @@ $S(p) = \frac{T_{1}}{T_{P}} \leq \frac{T_{1}}{T_{\infty}}$ Maximum speedup is bo
 Assume a parallel computer whose processors can perform a task in unit time with greedy scheduling of tasks 
 
 
-Brent's theorem states a similar computer with fewer processors p can exeute the algorithm with the following upper limits: $$T_{p}\leq \left( \frac{T_{1}}{} \right)$$
+Brent's theorem states a similar computer with fewer processors p can exeute the algorithm with the following upper limits: $$T_{p}\leq \left( \frac{T_{1}-T_{\infty}}{p} \right)$$
 ## Implication of Brent's theorem
 considering the speed up, we have that $S(P) \leq min\left( \frac{p,T_{1}}{T_{\infty}} \right)$ the speedup is bounded by both the number of processors and the available parallelism
 To obtain good speedup $T_{1}$ must be significantly larger than $T_{\infty}$ 
@@ -112,14 +112,14 @@ It consists of three parts:
 - A communication network that can deliver point-to-point messages among processors 
 - A facility for global synchronization (**barrier**) of all processors
 
-Main goal: seprate the 3 paradigm (computation, .. .., ....) #TODO 
+Main goal: seprate  computation, communication, synchronization so that algorithm design become more predictable 
 
 # BSP COMPUTER
 n processor $P_{o},\dots,P_{n-1}$ each with its own memory (a distributed memory multiprocessor)
-A processor can access its local... #TODO 
+A processor can access its local memory directly during computation. Data owned by another processor must be obtained through explicit communication over the network
 
 ## BSP Algorithm
-- it consists of a sequence of supersteps
+A BSP  consists of a sequence of supersteps
 - A superstep consists of
 	- computation,communication,or computation and communication steps
 		- so called mixed superstep in case both are executed 
