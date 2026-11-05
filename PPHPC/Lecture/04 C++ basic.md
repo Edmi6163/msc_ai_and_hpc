@@ -73,3 +73,37 @@ class -> private
 - Swap Two integers by reference 
 	- implement swap_values(int&,int&)
 
+
+# C++ Essentials
+In modern C++ performance and abstraction coexist. Values and objects have lifetimes. The Standard Template Library [[#The STL model]] is central, it contains different types of construct (containers, algorithm,iterators).
+
+## Automatic type deduction (auto)
+`auto` reduces verbosity, it not dynamic typing, the type is fixed at compile time. The compiler inspects the right-hand side (RHS) of the assignment and deduces the type from initialization
+
+**decltype**: `decltype(expr)` returns the type of the expression wihtout evaluating it. Unlike `auto`, it preserves const and reference qualifier.
+```c++
+//returns the type deduced from the expression a+b
+template <typename T,typename U>
+	auto sum(T a, U b) -> decltype(a+b){
+		return a+b;
+		}
+```
+
+List initialization {} vs Parentheses ()
+- =,{},() are not intechangeable
+- brace initialization prevents narrowing
+
+## The STL model
+- **Containers**,accessed through **iterators**, and processed by **algorithms**
+- std::vector as the default sequence container
+### Iterators
+An iterator (it) is a generalized pointer tht denotes a position in a sequence
+- STL algorithms operate on half-open ranges (i.e. (first,lats)) and they are **container-agnostic** 
+
+There are different types of Iterators:
+- Output iterators - single pass, **write**
+- Input Iterators - single pass, read 
+- Forward Iterators - multi-pass, forward only
+- etc etc 
+
+### Common pitfalls with iterators
